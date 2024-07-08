@@ -10,6 +10,7 @@ import {Hash, Mic, PersonStanding, ShieldAlert, ShieldCheck, Video} from "lucide
 import {Separator} from "@/components/ui/separator";
 import ServerSection from "@/components/server/server-section";
 import ServerChannelSidebarItem from "@/components/server/server-channel-sidebar-item";
+import ServerMemberSidebarItem from "@/components/server/server-member-sidebar-item";
 
 interface ServerSidebarProps {
   serverId: string;
@@ -199,6 +200,39 @@ const ServerSidebar = async (
             ))}
           </div>
         )}
+
+        <div
+          className="md:hidden block"
+        >
+          {!!members.length && (
+            <div className="mb-2">
+              <ServerSection
+                sectionType="members"
+                channelType={ChannelType.VIDEO}
+                role={role}
+                label={"Members"}
+                server={server}
+              />
+
+              {members.map((mem) => (
+                <div
+                  key={mem.id}
+                >
+                  <ServerMemberSidebarItem
+                    member={mem}
+                    server={server}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+
+          {members.length == 0 && (
+            <div>
+              Added members will show up here :)
+            </div>
+          )}
+        </div>
       </ScrollArea>
     </div>
   );

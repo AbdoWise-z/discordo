@@ -34,11 +34,13 @@ const ServerChannelSidebarItem = (
 
   const Icon = iconMap[channel.type];
 
+  const handleClick = () => {
+    router.push(`/servers/${server?.id}/channels/${channel.id}`);
+  }
+
   return (
     <button
-      onClick={() => {
-
-      }}
+      onClick={handleClick}
       className={cn(
         "group px-2 py-2 rounded-md flex items-center gap-x-2 w-full",
         "hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition mb-1",
@@ -60,7 +62,8 @@ const ServerChannelSidebarItem = (
         <div className="ml-auto flex items-center gap-x-2">
           <ActionTooltip label={"Edit"} side="top">
             <Edit
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 modal.open(ModalType.EDIT_CHANNEL , {
                   server,
                   channel,
@@ -72,7 +75,8 @@ const ServerChannelSidebarItem = (
 
           <ActionTooltip label={"Delete"} side="top">
             <Trash
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 modal.open(ModalType.DELETE_CHANNEL , {
                   server,
                   channel,

@@ -54,7 +54,7 @@ export async function DELETE(
     });
 
   } catch (error){
-    console.log("DELETE [api/channels/[channelId]]" , error);
+    console.log("DELETE [api/channels/[memberId]]" , error);
     return new NextResponse("Internal Server Error", {status: 500});
   }
 }
@@ -114,7 +114,7 @@ export async function PATCH(
     });
 
   } catch (error){
-    console.log("PATCH [api/channels/[channelId]]" , error);
+    console.log("PATCH [api/channels/[memberId]]" , error);
     return new NextResponse("Internal Server Error", {status: 500});
   }
 }

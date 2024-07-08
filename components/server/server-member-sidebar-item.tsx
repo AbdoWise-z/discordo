@@ -33,16 +33,17 @@ const ServerMemberSidebarItem = (
 
   const icon = roleIconMap[member.role];
 
-  //fixme: maybe change the params element ?
+  const handleClick = () => {
+    router.push(`/servers/${server?.id}/conversations/${member.id}`);
+  }
+
   return (
     <button
-      onClick={() => {
-
-      }}
+      onClick={handleClick}
       className={cn(
         "group px-2 py-2 rounded-md flex items-center gap-x-2 w-full",
         "hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition mb-1",
-        params?.channelId === member.id && "bg-zinc-700/20 dark:bg-zinc-700",
+        params?.memberId === member.id && "bg-zinc-700/20 dark:bg-zinc-700",
       )}
     >
       <UserAvatar
@@ -53,7 +54,7 @@ const ServerMemberSidebarItem = (
         className={cn(
           "line-clamp-1 font-semibold text-sm text-zinc-500 dark:text-zinc-400",
           "group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition",
-          params?.channelId === member.id && "text-primary dark:text-zinc-200 dark:group-hover:text-white",
+          params?.memberId === member.id && "text-primary dark:text-zinc-200 dark:group-hover:text-white",
         )}
       >
         {member.profile.name}
