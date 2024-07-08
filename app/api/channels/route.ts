@@ -14,7 +14,7 @@ export const POST = async (req: Request) => {
       return new NextResponse("Unauthorized" , {status: 401});
     }
 
-    if (!name || !type || !serverId){
+    if (!name || !type || !serverId || name == 'general'){
       return new NextResponse("invalid params", {status: 400});
     }
 

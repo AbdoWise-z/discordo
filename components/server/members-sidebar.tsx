@@ -56,7 +56,8 @@ const MembersSidebar = async (
   const role = self.role;
 
   return (
-    <div className="h-full w-full flex flex-col text-primary dark:bg-[#2b2d31] bg-[#F2F3F5]">
+    members.length != 0 &&
+    <div className="w-60 h-full flex flex-col text-primary dark:bg-[#2b2d31] bg-[#F2F3F5]">
       <ScrollArea className="flex-1 w-full px-3">
         {!!members.length && (
           <div className="mb-2">
@@ -78,6 +79,12 @@ const MembersSidebar = async (
                 />
               </div>
             ))}
+          </div>
+        )}
+
+        {members.length == 0 && (
+          <div>
+            Added members will show up here :)
           </div>
         )}
 

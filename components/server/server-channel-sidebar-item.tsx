@@ -7,6 +7,7 @@ import {Edit, Hash, Lock, Mic, Trash, Video} from "lucide-react";
 import {useParams, useRouter} from "next/navigation";
 import {cn} from "@/lib/utils";
 import ActionTooltip from "@/components/ui/action-tooltip";
+import {ModalType, useModal} from "@/hooks/useModal";
 
 interface ServerChannelSidebarProps {
   channel: Channel,
@@ -29,6 +30,7 @@ const ServerChannelSidebarItem = (
 ) => {
   const params = useParams();
   const router = useRouter();
+  const modal = useModal();
 
   const Icon = iconMap[channel.type];
 
@@ -58,12 +60,24 @@ const ServerChannelSidebarItem = (
         <div className="ml-auto flex items-center gap-x-2">
           <ActionTooltip label={"Edit"} side="top">
             <Edit
+              onClick={() => {
+                modal.open(ModalType.EDIT_CHANNEL , {
+                  server,
+                  channel,
+                })
+              }}
               className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition"
             />
           </ActionTooltip>
 
           <ActionTooltip label={"Delete"} side="top">
             <Trash
+              onClick={() => {
+                modal.open(ModalType.DELETE_CHANNEL , {
+                  server,
+                  channel,
+                })
+              }}
               className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition"
             />
           </ActionTooltip>
