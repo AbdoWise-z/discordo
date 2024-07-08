@@ -32,6 +32,7 @@ import {useParams, useRouter} from "next/navigation";
 import {ModalType, useModal} from "@/hooks/useModal";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {ChannelType} from "@prisma/client";
+import {useEffect} from "react";
 
 const formSchema = z.object({
   name: z.string().min(1 , {
@@ -48,14 +49,21 @@ export const CreateChannelModal = () => {
   const modal = useModal();
   const isOpen = modal.isOpen && modal.type == ModalType.CREATE_CHANNEL;
 
+  const {channelType} = modal?.data;
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      type: ChannelType.TEXT,
+      type: channelType || ChannelType.TEXT,
     }
   });
 
+  useEffect(() => {
+      if (channelType){
+        form.setValue("type" , channelType);
+      }
+    }, [form , channelType]);
 
   const isLoading = form.formState.isSubmitting;
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
