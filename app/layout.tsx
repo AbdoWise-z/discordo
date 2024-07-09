@@ -5,6 +5,7 @@ import { ClerkProvider } from '@clerk/nextjs';
 import {ThemeProvider} from "@/components/providers/theme-provider";
 import { cn } from "@/lib/utils";
 import ModelProvider from "@/components/providers/model-provider";
+import SocketProvider from "@/components/providers/socket-provider";
 
 const font = Open_Sans({ subsets: ["latin"] });
 
@@ -30,9 +31,10 @@ export default function RootLayout({
               enableSystem
               storageKey="app-theme"
             >
-              <ModelProvider/>
-
-              {children}
+              <SocketProvider>
+                <ModelProvider/>
+                {children}
+              </SocketProvider>
             </ThemeProvider>
           </body>
       </html>

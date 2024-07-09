@@ -18,7 +18,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { FileUpload } from "@/components/view/file-upload";
+import { FileUpload } from "@/components/utility/file-upload";
 
 import { Input } from "../ui/input";
 

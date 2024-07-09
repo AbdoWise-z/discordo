@@ -3,7 +3,7 @@ import { currentUserProfile } from "@/lib/user-profile";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import {CreateServerModal} from "@/components/modals/create-server-modal";
-import Mounted from "@/components/view/mounted";
+import Mounted from "@/components/utility/mounted";
 
 const SetupPage = async () => {
   const profile = await currentUserProfile(true);

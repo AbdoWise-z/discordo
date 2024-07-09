@@ -7,7 +7,7 @@ import {Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle,} fr
 import {ModalType, useModal} from "@/hooks/useModal";
 import {ServerWithMembersWithProfiles} from "@/types";
 import {ScrollArea} from "@/components/ui/scroll-area";
-import UserAvatar from "@/components/view/user-avatar";
+import UserAvatar from "@/components/utility/user-avatar";
 import {
   Check,
   Gavel, Loader2,
