@@ -79,6 +79,12 @@ model Member {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  messages Message[]
+  directMessages DirectMessage[]
+
+  conversationsIds String[]
+  conversations Conversation[] @relation(fields: [conversationsIds] , references: [id])
+
   @@index([profileId , serverId])
 }
 
@@ -99,8 +105,68 @@ model Channel {
   serverId String
   server Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
 
+  messages Message[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([profileId , serverId])
+}
+
+
+model Message {
+  id String @id @default(uuid()) @map("_id")
+
+  content String
+  //fixme: Implement a type system for attachments
+  Attachment String?
+
+  senderId String
+  sender Member @relation(fields: [senderId], references: [id], onDelete: Cascade)
+
+  channelId String
+  channel Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  deleted Boolean @default(false)
+
+  @@index([senderId , channelId])
+}
+
+model Conversation {
+  id String @id @default(uuid()) @map("_id")
+
+  //fixme: we are currently keeping conversations with zero members as an archieve ..
+  membersIds String[]
+  members Member[] @relation(fields: [membersIds] , references: [id])
+
+  messages DirectMessage[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([membersIds])
+}
+
+model DirectMessage {
+  id String @id @default(uuid()) @map("_id")
+
+  content String
+  //fixme: Implement a type system for attachments
+  Attachment String?
+
+  senderId String
+  sender Member @relation(fields: [senderId], references: [id], onDelete: Cascade)
+
+  conversationId String
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  deleted Boolean @default(false)
+
+  @@index([senderId , conversationId])
 }
