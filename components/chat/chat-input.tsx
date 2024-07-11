@@ -1,7 +1,7 @@
 "use client";
 
 import * as z from 'zod';
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormField, FormItem} from "@/components/ui/form";
@@ -12,11 +12,11 @@ import axios from "axios";
 import {ModalType, useModal} from "@/hooks/useModal";
 import EmojiPickerButton from "@/components/chat/emoji-picker-button";
 import {useRouter} from "next/navigation";
+import {useAutoResize} from "@/hooks/useAutoResize";
 
 
 const formSchema = z.object({
   content: z.string().min(1),
-
 })
 
 interface ChatInputProps {
@@ -36,6 +36,7 @@ const ChatInput = (
 ) => {
 
   const router = useRouter();
+  const {ref, fitToSize , onInput} = useAutoResize();
 
   const form = useForm<z.infer<typeof formSchema>>(
     {
@@ -45,6 +46,15 @@ const ChatInput = (
       resolver: zodResolver(formSchema),
     }
   )
+
+  const handleKeyDown = (e: any) => {
+    if (e.key == 'Enter'){
+      if (e.shiftKey){
+        return;
+      }
+      form.handleSubmit(onSubmit)();
+    }
+  };
 
   const modal = useModal();
 
@@ -63,6 +73,7 @@ const ChatInput = (
       });
 
       form.reset();
+      setTimeout(fitToSize , 10);
       //router.refresh();
 
     } catch (error){
@@ -99,12 +110,17 @@ const ChatInput = (
                       <Plus className="text-white dark:text-[#313338]"/>
                     </button>
 
-                    <Input
+                    <textarea
+                      onInput={onInput}
+                      onKeyDown={handleKeyDown}
                       {...field}
                       disabled={isLoading}
-                      className="px-14 py-6 bg-zinc-200/90 dark:bg-zinc-700/75
+                      rows={1}
+                      ref={ref as any}
+                      className="px-14 py-3 bg-zinc-200/90 dark:bg-zinc-700/75
                       border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0
-                      text-zinc-600 dark:text-zinc-200"
+                      text-zinc-600 dark:text-zinc-200 w-full rounded-md resize-none
+                      max-h-[300px]"
                       placeholder={`Message ${type == 'channel' ? ('#' + name) : name}`}
                     />
 

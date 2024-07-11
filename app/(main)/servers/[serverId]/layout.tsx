@@ -3,7 +3,7 @@ import {currentUserProfile} from "@/lib/user-profile";
 import {db} from "@/lib/db";
 import {redirect} from "next/navigation";
 import ServerSidebar from "@/components/server/server-sidebar";
-import MembersSidebar from "@/components/server/members-sidebar";
+import ServerMembersSidebar from "@/components/server/server-members-sidebar";
 
 const ServerLayout = async (
   {
@@ -45,7 +45,7 @@ const ServerLayout = async (
           {children}
         </div>
         <div className="hidden md:block h-full z-20">
-          <MembersSidebar serverId={params.serverId}/>
+          <ServerMembersSidebar serverId={params.serverId}/>
         </div>
       </div>
     </div>

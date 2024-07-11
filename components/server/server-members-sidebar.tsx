@@ -12,7 +12,7 @@ interface MembersSidebarProps {
 }
 
 
-const MembersSidebar = async (
+const ServerMembersSidebar = async (
   {serverId}: MembersSidebarProps
 ) => {
   const profile = await currentUserProfile(true);
@@ -93,4 +93,4 @@ const MembersSidebar = async (
   );
 };
 
-export default MembersSidebar;
+export default ServerMembersSidebar;

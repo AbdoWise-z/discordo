@@ -4,7 +4,7 @@ body,
   height: 100%;
 }
 
-@tailwind base;
+  @tailwind base;
   @tailwind components;
   @tailwind utilities;
 
@@ -39,6 +39,20 @@ body,
       --ring: 20 14.3% 4.1%;
 
       --radius: 0.5rem;
+    }
+
+    h1 {
+      @apply text-2xl;
+      @apply font-bold;
+    }
+
+    h2 {
+      @apply text-xl;
+      @apply font-bold;
+    }
+
+    h3 {
+      @apply text-lg;
     }
 
     .dark {
