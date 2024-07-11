@@ -33,13 +33,14 @@ export const ourFileRouter = {
     }),
 
   messageAttachmentUploader: f({
+    //fixme add support to upload more than one image/pdf
     image: {
       maxFileSize: "4MB",
-      maxFileCount: 8,
+      maxFileCount: 1,
     },
     pdf: {
       maxFileSize: "4MB",
-      maxFileCount: 8,
+      maxFileCount: 1,
     }, })
     // Set permissions and file types for this FileRoute
     .middleware(async ({ req }) => {

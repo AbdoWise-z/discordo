@@ -14,13 +14,10 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 
 import { FileUpload } from "@/components/utility/file-upload";
-
-import { Input } from "../ui/input";
 
 import { Button } from "../ui/button";
 
@@ -30,51 +27,52 @@ import axios from "axios";
 import {zodResolver} from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import {ModalType, useModal} from "@/hooks/useModal";
-import {useEffect} from "react";
+import qs from "query-string";
 
 const formSchema = z.object({
-  name: z.string().min(1 , {
-    message: "Server name is required",
-  }),
-  imageUrl: z.string().min(1 , {
-    message: "Server image is required",
+  fileUrl: z.string().min(1 , {
+    message: "Attachment is required",
   }),
 });
 
-export const EditServerModal = () => {
+export const MessageFileModal = (
+
+) => {
 
   const router = useRouter();
 
   const modal = useModal();
-  const { server } = modal.data;
-
-  const isOpen = modal.isOpen && modal.type == ModalType.EDIT_SERVER;
+  const isOpen = modal.isOpen && modal.type == ModalType.MESSAGE_FILE;
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      imageUrl: ""
+      fileUrl: ""
     }
   });
-
-  useEffect(() => {
-    if (server) {
-      form.setValue("name", server.name);
-      form.setValue("imageUrl", server.imageUrl);
-    }
-  } , [server, form , isOpen]);
 
 
   const isLoading = form.formState.isSubmitting;
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try{
-      await axios.patch(`/api/servers/${server?.id}` , values);
+    try {
+      const {apiUrl , query} = modal.data;
+
+      const url = qs.stringifyUrl({
+        url: apiUrl || "",
+        query: query,
+      });
+
+      await axios.post(url, {
+        "content": values.fileUrl,
+        "fileUrl": values.fileUrl,
+      });
+
       form.reset();
-      router.refresh();
       modal.close();
-    } catch (err){
-      console.log(err);
+    } catch (error){
+      console.log(error);
+    } finally {
+
     }
   };
 
@@ -92,10 +90,10 @@ export const EditServerModal = () => {
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6" >
           <DialogTitle className="text-2xl text-center font-bold" >
-            Customize your server !
+            Add an attachment
           </DialogTitle>
           <DialogDescription className="text-center text-zinc-500">
-            you can create servers here to chat with friends , give it a name and an image. you can always change this later
+            select a file to be sent as a message attachment.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -104,13 +102,13 @@ export const EditServerModal = () => {
               <div className="flex items-center justify-center text-center">
                 <FormField
                   control={form.control}
-                  name="imageUrl"
+                  name="fileUrl"
                   render={({field}) => (
                     <FormItem>
                       <FormControl>
                         <div>
                         <FileUpload
-                          endpoint="imageUploader"
+                          endpoint="messageAttachmentUploader"
                           value={field.value}
                           onChange={field.onChange}
                         />
@@ -121,28 +119,10 @@ export const EditServerModal = () => {
                   )}
                 />
               </div>
-              <FormField
-                control={form.control}
-                name="name"
-                render={({field}) => (
-                  <FormItem>
-                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">Server name</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={isLoading}
-                        className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0 space-x-0 space-y-0 px"
-                        placeholder="Enter server name"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage/>
-                  </FormItem>
-                )}
-              />
             </div>
             <DialogFooter className="bg-gray-100 px-2 py-6">
               <Button disabled={isLoading} variant="primary">
-                Save
+                Send
               </Button>
             </DialogFooter>
           </form>

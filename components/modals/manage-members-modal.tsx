@@ -49,11 +49,9 @@ export const ManageMembersModal = () => {
     server: ServerWithMembersWithProfiles
   };
 
-  const [loadingId, setLoadingId] = useState([""]);
+  const [loadingId, setLoadingId] = useState(([] as string[]));
 
   if (!server) return <></>;
-
-  console.log(loadingId);
 
   const onKick = async (memberId: string) =>{
     try {

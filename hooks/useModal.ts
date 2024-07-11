@@ -12,6 +12,7 @@ export enum ModalType {
   DELETE_SERVER,
   DELETE_CHANNEL,
   EDIT_CHANNEL,
+  MESSAGE_FILE,
 
   //TODO: add other types
 }
@@ -20,6 +21,8 @@ interface ModelData {
   server?: Server,
   channel?: Channel,
   channelType?: ChannelType,
+  apiUrl?: string,
+  query?: Record<string , any>,
 }
 
 interface ModalStore {
