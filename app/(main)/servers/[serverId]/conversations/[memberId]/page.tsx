@@ -4,6 +4,8 @@ import {db} from "@/lib/db";
 import {redirect} from "next/navigation";
 import {getOrCreateConversation} from "@/lib/conversations";
 import ChatHeader from "@/components/chat/chat-header";
+import ChatMessages from "@/components/chat/chat-messages";
+import ChatInput from "@/components/chat/chat-input";
 
 const MemberChatPage = async (
   {
@@ -43,6 +45,31 @@ const MemberChatPage = async (
         name={otherMembers[0].profile.name}
         type={"conversation"}
         imageUrl={otherMembers[0].profile.imageUrl}
+      />
+
+      <ChatMessages
+        member={currentMember}
+        name={otherMembers[0].profile.name}
+        chatId={conversation.id}
+        type='conversation'
+        apiUrl="/api/direct-messages"
+        socketUrl="/api/socket/direct-messages"
+        socketQuery={{
+          serverId: params.serverId,
+          conversationId: conversation.id,
+        }}
+        paramKey='conversationId'
+        paramValue={conversation.id}
+      />
+
+      <ChatInput
+        name={otherMembers[0].profile.name}
+        type="channel"
+        apiUrl="/api/socket/direct-messages"
+        query={{
+          serverId: params.serverId,
+          conversationId: conversation.id,
+        }}
       />
     </div>
   );
