@@ -1,6 +1,6 @@
 "use client";
 
-import React, {Fragment} from 'react';
+import React, {Fragment, useRef} from 'react';
 import {Member, Message} from "@prisma/client";
 import ChatWelcome from "@/components/chat/chat-welcome";
 import {useChatQuery} from "@/hooks/use-chat";
@@ -8,6 +8,7 @@ import {Loader2, ServerCrash} from "lucide-react";
 import {MessageWithMembersWithProfiles} from "@/types";
 import ChatItem from "@/components/chat/chat-item";
 import {useChatSocket} from "@/hooks/use-chat-socket";
+import {useChatScroll} from "@/hooks/use-chat-scroll";
 
 interface ChatMessagesProps {
   name: string;
@@ -39,6 +40,9 @@ const ChatMessages = (
   } : ChatMessagesProps
 ) => {
 
+  const charRef = useRef<HTMLDivElement>(null);
+  const botRef = useRef<HTMLDivElement>(null);
+
   const queryKey = `chat:${chatId}`
   const {
     data,
@@ -57,7 +61,15 @@ const ChatMessages = (
     queryKey: queryKey,
     addKey: `chat:${chatId}:messages`,
     updateKey: `chat:${chatId}:messages:update`,
-  })
+  });
+
+  useChatScroll({
+    chatRef: charRef,
+    bottomRef: botRef,
+    shouldLoadMore: !isFetchingNextPage && hasNextPage,
+    loadMore: fetchNextPage,
+    count: data?.pages?.[0].items?.length ?? 0,
+  });
 
   if (status == 'pending') {
     return (
@@ -86,12 +98,33 @@ const ChatMessages = (
   }
 
   return (
-    <div className="flex-1 flex flex-col overflow-y-auto">
-      <div className='flex-1 mt-2'/>
-      <ChatWelcome
-        name={name}
-        type={type}
-      />
+    <div ref={charRef} className="flex-1 flex flex-col overflow-y-auto">
+      {!hasNextPage && (
+        <>
+          <div className='flex-1 mt-2'/>
+          <ChatWelcome
+            name={name}
+            type={type}
+          />
+        </>
+      )}
+      {hasNextPage && (
+        <div className="flex justify-center">
+          {isFetchingNextPage && (
+            <Loader2
+              className="h-6 w-6 text-zinc-500 animate-spin my-4"
+            />
+          )}
+          {!isFetchingNextPage && (
+            <button
+              onClick={() => fetchNextPage()}
+              className="my-4"
+            >
+              Load Previous messages
+            </button>
+          )}
+        </div>
+      )}
       <div className="flex flex-col-reverse">
         {
           data?.pages?.map((page , pageIndex) => (
@@ -115,6 +148,8 @@ const ChatMessages = (
           ))
         }
       </div>
+
+      <div ref={botRef}/>
     </div>
 
   );
