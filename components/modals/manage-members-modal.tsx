@@ -4,7 +4,7 @@ import qs from "query-string";
 
 import {Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle,} from "@/components/ui/dialog";
 
-import {ModalType, useModal} from "@/hooks/useModal";
+import {ModalType, useModal} from "@/hooks/use-modal";
 import {ServerWithMembersWithProfiles} from "@/types";
 import {ScrollArea} from "@/components/ui/scroll-area";
 import UserAvatar from "@/components/utility/user-avatar";

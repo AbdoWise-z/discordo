@@ -6,10 +6,10 @@ import {Dialog, DialogContent, DialogHeader, DialogTitle,} from "@/components/ui
 import {Input} from "../ui/input";
 
 import {Button} from "../ui/button";
-import {ModalType, useModal} from "@/hooks/useModal";
+import {ModalType, useModal} from "@/hooks/use-modal";
 import {Label} from "@/components/ui/label";
 import {Check, Copy, RefreshCw, RotateCw} from "lucide-react";
-import {useOrigin} from "@/hooks/useOrigin";
+import {useOrigin} from "@/hooks/use-origin";
 import {useState} from "react";
 import axios from "axios";
 import {cn} from "@/lib/utils";

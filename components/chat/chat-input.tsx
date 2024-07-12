@@ -8,10 +8,10 @@ import {Form, FormControl, FormField, FormItem} from "@/components/ui/form";
 import {Plus} from "lucide-react";
 import qs from 'query-string';
 import axios from "axios";
-import {ModalType, useModal} from "@/hooks/useModal";
+import {ModalType, useModal} from "@/hooks/use-modal";
 import EmojiPickerButton from "@/components/chat/emoji-picker-button";
 import {useRouter} from "next/navigation";
-import {useAutoResize} from "@/hooks/useAutoResize";
+import {useAutoResize} from "@/hooks/use-auto-resize";
 
 
 const formSchema = z.object({

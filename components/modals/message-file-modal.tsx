@@ -26,7 +26,7 @@ import * as z from "zod";
 import axios from "axios";
 import {zodResolver} from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import {ModalType, useModal} from "@/hooks/useModal";
+import {ModalType, useModal} from "@/hooks/use-modal";
 import qs from "query-string";
 
 const formSchema = z.object({

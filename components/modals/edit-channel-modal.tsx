@@ -29,7 +29,7 @@ import axios from "axios";
 import qs from "query-string";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useRouter} from "next/navigation";
-import {ModalType, useModal} from "@/hooks/useModal";
+import {ModalType, useModal} from "@/hooks/use-modal";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {ChannelType} from "@prisma/client";
 import {useEffect} from "react";

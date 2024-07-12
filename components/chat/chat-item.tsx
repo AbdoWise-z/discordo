@@ -13,10 +13,11 @@ import {cn} from "@/lib/utils";
 import qs from 'query-string';
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {useAutoResize} from "@/hooks/useAutoResize";
+import {useAutoResize} from "@/hooks/use-auto-resize";
 import {Form, FormControl, FormField, FormItem} from "@/components/ui/form";
 import axios from "axios";
-import {ModalType, useModal} from "@/hooks/useModal";
+import {ModalType, useModal} from "@/hooks/use-modal";
+import {useRouter} from "next/navigation";
 
 
 const DATE_FORMAT = 'd MMM yyyy HH:mm';
@@ -62,6 +63,7 @@ const ChatItem = (
     socketQuery,
   } : ChatItemProps
 ) => {
+  const router = useRouter();
   const [isEditing, setIsEditing] = React.useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -123,10 +125,16 @@ const ChatItem = (
 
   const isLoading = form.formState.isSubmitting;
 
+  const onMemberClick = () => {
+    if (currentMember.id === sender.id) return;
+
+    router.push(`/servers/${sender.serverId}/conversations/${sender.id}`);
+  }
+
   return (
     <div className="relative group flex items-center hover:bg-black/5 p-4 transition w-full">
       <div className="flex group gap-x-2 items-start w-full">
-        <div className="cursor-pointer hover:drop-shadow-md transition">
+        <div onClick={onMemberClick} className="cursor-pointer hover:drop-shadow-md transition">
           <UserAvatar
             src={sender.profile.imageUrl}
             fallback={sender.profile.name}
@@ -136,7 +144,7 @@ const ChatItem = (
         <div className="flex flex-col w-full">
           <div className="flex items-center gap-x-2">
             <div className="flex items-center">
-              <p className="text-sm font-semibold hover:underline cursor-pointer">
+              <p onClick={onMemberClick} className="text-sm font-semibold hover:underline cursor-pointer">
                 {sender.profile.name}
               </p>
 

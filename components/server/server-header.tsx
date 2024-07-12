@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import {ChevronDown, LogOut, Plus, SettingsIcon, Trash, UserPlus, Users} from "lucide-react";
-import {ModalType, useModal} from "@/hooks/useModal";
+import {ModalType, useModal} from "@/hooks/use-modal";
 
 interface ServerHeaderProps {
   server: ServerWithMembersWithProfiles,

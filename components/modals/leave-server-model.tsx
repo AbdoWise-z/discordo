@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 
 import {Button} from "../ui/button";
-import {ModalType, useModal} from "@/hooks/useModal";
+import {ModalType, useModal} from "@/hooks/use-modal";
 import {useState} from "react";
 
 import axios from "axios";
