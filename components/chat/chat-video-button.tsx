@@ -13,7 +13,7 @@ const ChatVideoButton = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  if (!searchParams) {
+  if (!searchParams || !pathName) {
     return <></>;
   }
 
