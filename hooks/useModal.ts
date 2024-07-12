@@ -13,6 +13,7 @@ export enum ModalType {
   DELETE_CHANNEL,
   EDIT_CHANNEL,
   MESSAGE_FILE,
+  DELETE_MESSAGE
 
   //TODO: add other types
 }

@@ -3,10 +3,10 @@
 import * as z from 'zod';
 import React, {useEffect} from 'react';
 import {Member, MemberRole, Profile} from "@prisma/client";
-import { format } from "date-fns";
+import {format} from "date-fns";
 import UserAvatar from "@/components/utility/user-avatar";
 import ActionTooltip from "@/components/ui/action-tooltip";
-import {Edit, Edit2, FileIcon, PersonStanding, ShieldAlert, ShieldCheck, Trash, X} from "lucide-react";
+import {Edit2, FileIcon, PersonStanding, ShieldAlert, ShieldCheck, Trash} from "lucide-react";
 import Image from "next/image";
 import Markdown from 'react-markdown'
 import {cn} from "@/lib/utils";
@@ -15,8 +15,8 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useAutoResize} from "@/hooks/useAutoResize";
 import {Form, FormControl, FormField, FormItem} from "@/components/ui/form";
-import {Button} from "@/components/ui/button";
 import axios from "axios";
+import {ModalType, useModal} from "@/hooks/useModal";
 
 
 const DATE_FORMAT = 'd MMM yyyy HH:mm';
@@ -62,7 +62,6 @@ const ChatItem = (
     socketQuery,
   } : ChatItemProps
 ) => {
-  const [isDeleted, setIsDeleted] = React.useState(false);
   const [isEditing, setIsEditing] = React.useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -71,6 +70,7 @@ const ChatItem = (
     }
   });
   const autoResize = useAutoResize();
+  const modal = useModal();
 
   useEffect(() => {
     form.reset({
@@ -180,12 +180,12 @@ const ChatItem = (
                 rehypePlugins={[]}
                 className={cn(
                   "text-zinc-600 dark:text-zinc-300",
-                  isDeleted && "italic text-zinc-500 dark:text-zinc-400 text-xs mt-1",
+                  deleted && "italic text-zinc-500 dark:text-zinc-400 text-xs mt-1",
                 )}
               >
                 {content.replaceAll('\n' , '\n\n')}
               </Markdown>
-              { isUpdated && !isDeleted && (
+              { isUpdated && !deleted && (
                <span className="text-zinc-500 dark:text-zinc-400 text-[10px]">
                  (edited)
                </span>
@@ -254,7 +254,13 @@ const ChatItem = (
 
           <ActionTooltip label="Delete">
             <Trash
-
+              onClick={() => {
+                modal.open(ModalType.DELETE_MESSAGE , {
+                  apiUrl: `${socketUrl}/${id}`,
+                  query: socketQuery
+                });
+                console.log("opened");
+              }}
               className="w-4 h-4 cursor-pointer
               text-zinc-500 dark:text-zinc-400
               hover:text-zinc-600 dark:hover:text-zinc-300 transition

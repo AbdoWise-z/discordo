@@ -5,12 +5,12 @@ export type ServerWithMembersWithProfiles = Server & {
 }
 
 import { Server as HttpServer } from 'http';
-import { Socket } from 'net';
+import { Socket as NetSocket } from 'net';
 import { Server as ServerIO } from 'socket.io';
 import { NextApiResponse } from 'next';
 
 export type NextApiResponseServerIO = NextApiResponse & {
-  socket: Socket & {
+  socket: NetSocket & {
     server: HttpServer & {
       io?: ServerIO;
     };
