@@ -12,6 +12,11 @@ const ChatVideoButton = () => {
   const pathName = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  if (!searchParams) {
+    return <></>;
+  }
+
   const isVideo = searchParams?.get("video");
 
   const startVideo = () => {
