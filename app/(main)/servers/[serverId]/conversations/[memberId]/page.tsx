@@ -1,21 +1,29 @@
 import React from 'react';
 import {currentUserProfile} from "@/lib/user-profile";
 import {db} from "@/lib/db";
-import {redirect} from "next/navigation";
+import {redirect, useSearchParams} from "next/navigation";
 import {getOrCreateConversation} from "@/lib/conversations";
 import ChatHeader from "@/components/chat/chat-header";
 import ChatMessages from "@/components/chat/chat-messages";
 import ChatInput from "@/components/chat/chat-input";
+import {ChannelType} from "@prisma/client";
+import MediaRoom from "@/components/utility/media-room";
+import qs from "query-string";
 
 const MemberChatPage = async (
   {
-    params
+    params,
+    searchParams,
   } : {
     params: {
       memberId: string;
       serverId: string;
     },
-  }
+    searchParams: {
+      video?: boolean;
+    }
+  },
+
 ) => {
   const profile = await currentUserProfile(true);
   if (!profile) return null;
@@ -29,6 +37,8 @@ const MemberChatPage = async (
       profile: true,
     }
   });
+
+  const enabledVideo = searchParams.video ?? false;
 
   if (!currentMember) return redirect("/");
 
@@ -46,6 +56,15 @@ const MemberChatPage = async (
         type={"conversation"}
         imageUrl={otherMembers[0].profile.imageUrl}
       />
+
+      {enabledVideo && (
+        <div className="h-[45%] mb-16">
+          <MediaRoom
+            chatId={conversation.id}
+            video={true}
+            audio={true}/>
+        </div>
+      )}
 
       <ChatMessages
         member={currentMember}
@@ -71,6 +90,7 @@ const MemberChatPage = async (
           conversationId: conversation.id,
         }}
       />
+
     </div>
   );
 };
