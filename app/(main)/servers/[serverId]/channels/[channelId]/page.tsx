@@ -76,21 +76,21 @@ const ChannelPage = async (
       )}
 
       {channel.type === ChannelType.AUDIO && (
-       <>
+       <div className="flex-1">
         <MediaRoom
           chatId={channel.id}
           video={false}
           audio={true}/>
-       </>
+       </div>
       )}
 
       {channel.type === ChannelType.VIDEO && (
-        <>
+        <div className="flex-1">
           <MediaRoom
             chatId={channel.id}
             video={true}
             audio={true}/>
-        </>
+        </div>
       )}
     </div>
   );

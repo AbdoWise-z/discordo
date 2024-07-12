@@ -60,10 +60,11 @@ const MediaRoom = (
     );
   }
 
+  //fixme hard coded the serverUrl because it caused errors when I place it inside the .env
   return (
     <LiveKitRoom
       onDisconnected={onLeave}
-      serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
+      serverUrl={"wss://discordo-1mvbkdwh.livekit.cloud"}
       token={token}
       audio={audio}
       video={video}
