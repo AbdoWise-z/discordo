@@ -141,8 +141,9 @@ const ChatItem = (
             className="w-8 h-8"
           />
         </div>
-        <div className="flex flex-col w-full">
-          <div className="flex items-center gap-x-2">
+
+        <div className="flex flex-col flex-1 w-0">
+          <div className="flex items-center gap-x-2 w-full">
             <div className="flex items-center">
               <p onClick={onMemberClick} className="text-sm font-semibold hover:underline cursor-pointer">
                 {sender.profile.name}
@@ -157,6 +158,7 @@ const ChatItem = (
               </span>
             </div>
           </div>
+
           {isImage && <a
             href={fileUrl}
             target="_blank"
@@ -182,12 +184,13 @@ const ChatItem = (
           )}
           
           {!fileUrl && !isEditing && (
-            <>
+            <div className="">
               <Markdown
+                unwrapDisallowed={false}
                 remarkPlugins={[]}
                 rehypePlugins={[]}
                 className={cn(
-                  "text-zinc-600 dark:text-zinc-300",
+                  "text-zinc-600 dark:text-zinc-300 break-words",
                   deleted && "italic text-zinc-500 dark:text-zinc-400 text-xs mt-1",
                 )}
               >
@@ -198,7 +201,7 @@ const ChatItem = (
                  (edited)
                </span>
               )}
-            </>
+            </div>
           )}
 
           {!fileUrl && isEditing && (
