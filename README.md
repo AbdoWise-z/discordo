@@ -68,6 +68,7 @@ This repository features a fullstack discord clone written in TypeScript.
 The project was made out of passion, it's not intended to be used commercially, but you are allowed
 to do so if you want (make sure to fix the authentication issues in the code cuz I skip some checks
 to not overload the database since I just a free version).
+The Project is Deployed [here](https://discordo-production.up.railway.app) in case you want to check it out.
 
 
 ### Built With
