@@ -70,6 +70,9 @@ const MediaRoom = (
       video={video}
       connect={true}
       data-lk-theme="default"
+      style={{
+        height: "100%",
+      }}
     >
       <MyVideoConference />
       <RoomAudioRenderer />
@@ -89,7 +92,7 @@ function MyVideoConference() {
     { onlySubscribed: false },
   );
   return (
-    <GridLayout tracks={tracks} style={{ height: 'calc(100vh - var(--lk-control-bar-height))' }}>
+    <GridLayout tracks={tracks} style={{ height: 'calc(100% - var(--lk-control-bar-height))' }}>
       {/* The GridLayout accepts zero or one child. The child is used
       as a template to render all passed in tracks. */}
       <ParticipantTile />
