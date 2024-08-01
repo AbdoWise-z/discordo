@@ -1,7 +1,6 @@
 "use client";
 
 import React, {useEffect, useState} from 'react';
-import {useUser} from "@clerk/nextjs";
 import {Loader2} from "lucide-react";
 import {
   ControlBar,
@@ -29,7 +28,6 @@ const MediaRoom = (
   } : MediaRoomProps
 ) => {
 
-  const { user } = useUser();
   const [token, setToken] = useState("");
   useEffect(() => {
     (async () => {
@@ -60,11 +58,10 @@ const MediaRoom = (
     );
   }
 
-  //fixme hard coded the serverUrl because it caused errors when I place it inside the .env
   return (
     <LiveKitRoom
       onDisconnected={onLeave}
-      serverUrl={"wss://discordo-1mvbkdwh.livekit.cloud"}
+      serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
       token={token}
       audio={audio}
       video={video}
