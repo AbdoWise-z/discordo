@@ -20,14 +20,22 @@ export const currentUserProfile = async (redirect?: boolean) => {
     return profile;
   }
 
-  const newProfile = await db.profile.create({
-    data: {
-      userId: user.id,
-      name: `${user.firstName} ${user.lastName}`,
-      imageUrl: user.imageUrl,
-      email: user.emailAddresses[0].emailAddress,
-    }
-  })
+  try {
+    const newProfile = await db.profile.create({
+      data: {
+        userId: user.id,
+        name: `${user.firstName} ${user.lastName}`,
+        imageUrl: user.imageUrl,
+        email: user.emailAddresses[0].emailAddress,
+      }
+    })
 
-  return newProfile;
+    return newProfile;
+  } catch (e) {
+    return (await db.profile.findUnique({
+      where: {
+        userId: user.id,
+      }
+    }));
+  }
 }
